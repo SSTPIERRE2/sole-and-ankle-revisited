@@ -36,9 +36,9 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
-          {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
-          {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
         </ImageWrapper>
+        {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
+        {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
@@ -117,33 +117,37 @@ const Flag = styled.div`
   color: var(--color-white);
   border-radius: 2px;
   z-index: 2;
+
+  ${Link}:hover &,
+  ${Link}:focus & {
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      animation: ${bringItAroundTown} 5000ms infinite linear;
+    }
+  }
 `;
 
 const Image = styled.img`
+  display: block;
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
   transition: transform 500ms, filter 500ms;
   transform-origin: 50% 85%;
-  position: relative;
   z-index: 1;
+  will-change: transform;
+
+  ${Link}:hover &,
+  ${Link}:focus & {
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      transform: scale(1.1);
+      transition: transform 200ms, filter 300ms;
+      filter: contrast(120%);
+    }
+  }
 `;
 
 const ImageWrapper = styled.div`
-  position: relative;
-
-  &:hover {
-    ${Flag} {
-      animation: ${bringItAroundTown} 5000ms infinite linear;
-    }
-
-    ${Image} {
-      @media (prefers-reduced-motion: no-preference) {
-        transform: scale(1.1);
-        transition: transform 200ms, filter 300ms;
-        filter: contrast(120%);
-      }
-    }
-  }
+  /* Image zooms in on hover/focus, truncate the spillover */
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Row = styled.div`

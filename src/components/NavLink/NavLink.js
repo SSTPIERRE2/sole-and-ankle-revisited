@@ -4,47 +4,56 @@ import { WEIGHTS } from "../../constants";
 
 const NavLink = ({ children, ...delegated }) => {
   return (
-    <Wrapper>
-      <BaseNavLink {...delegated}>{children}</BaseNavLink>
-      <BoldNavLink {...delegated}>{children}</BoldNavLink>
+    <Wrapper {...delegated}>
+      <MainText>{children}</MainText>
+      <HoverText>{children}</HoverText>
     </Wrapper>
   );
 };
 
-const BaseNavLink = styled.a`
+const Wrapper = styled.a`
+  display: block;
+  position: relative;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--colors-gray-900);
   font-weight: ${WEIGHTS.medium};
-  transition: all 200ms ease-in-out;
-`;
-
-const BoldNavLink = styled(BaseNavLink)`
-  font-weight: ${WEIGHTS.bold};
-  position: absolute;
-  transform: translateY(90%);
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  position: relative;
+  /* Text slide-up effect */
   overflow: hidden;
 
   &:first-of-type {
-    ${BaseNavLink} {
-      color: var(--color-secondary);
-    }
+    color: var(--color-secondary);
   }
+`;
 
-  &:hover {
-    ${BaseNavLink} {
-      transform: translateY(-90%);
-    }
-    ${BoldNavLink} {
-      transform: translateY(0%);
+const Text = styled.span`
+  display: block;
+  transform: translateY(var(--translate-from));
+  transition: transform 500ms ease-in-out;
+
+  @media (prefers-reduced-motion: no-preference) {
+    ${Wrapper}:hover & {
+      transition: transform 250ms;
+      transform: translateY(var(--translate-to));
     }
   }
+`;
+
+const MainText = styled(Text)`
+  --translate-from: 0%;
+  --translate-to: -100%;
+`;
+
+const HoverText = styled(Text)`
+  --translate-from: 100%;
+  --translate-to: 0%;
+  font-weight: ${WEIGHTS.bold};
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 export default NavLink;

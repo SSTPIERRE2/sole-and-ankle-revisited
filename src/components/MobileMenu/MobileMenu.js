@@ -76,7 +76,7 @@ const Content = styled(DialogContent)`
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: slideIn 500ms both cubic-bezier(0.2, 0.34, 0.14, 0.97);
+    animation: slideIn 500ms both cubic-bezier(0, -0.01, 0.38, 0.99);
   }
 
   position: relative;

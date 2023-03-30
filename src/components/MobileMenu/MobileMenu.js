@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/macro";
+import styled, { keyframes } from "styled-components/macro";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 
 import { WEIGHTS } from "../../constants";
@@ -34,14 +34,18 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
-const StyledDialogOverlay = styled(DialogOverlay)`
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+`;
+
+const StyledDialogOverlay = styled(DialogOverlay)`
   inset: 0;
-  animation: fadeIn 850ms;
+  animation: ${fadeIn} 850ms;
   position: fixed;
   top: 0;
   right: 0;
@@ -56,6 +60,7 @@ const StyledDialogContent = styled(DialogContent)`
       transform: translateX(100%);
     }
   }
+
   animation: slideIn 500ms;
   position: absolute;
   top: 0;
@@ -77,6 +82,8 @@ const Nav = styled.nav`
   font-weight: ${WEIGHTS.medium};
   font-size: calc(18 / 16 * 1rem);
   color: var(--color-gray-900);
+  animation: ${fadeIn} 300ms both;
+  animation-delay: 250ms;
 `;
 
 const Footer = styled.footer`
@@ -86,6 +93,8 @@ const Footer = styled.footer`
   font-weight: ${WEIGHTS.normal};
   font-size: calc(14 / 16 * 1rem);
   color: var(--color-gray-700);
+  animation: ${fadeIn} 300ms both;
+  animation-delay: 250ms;
 `;
 
 const Link = styled.a`
@@ -98,6 +107,8 @@ const CloseButton = styled(UnstyledButton)`
   padding: 16px;
   margin-right: -16px;
   margin-top: -26px;
+  animation: ${fadeIn} 300ms both;
+  animation-delay: 250ms;
 `;
 
 export default MobileMenu;

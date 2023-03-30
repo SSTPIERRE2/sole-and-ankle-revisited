@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/macro";
+import styled, { keyframes } from "styled-components/macro";
 
 import { WEIGHTS } from "../../constants";
 import { formatPrice, pluralize, isNewShoe } from "../../utils";
@@ -64,20 +64,86 @@ const ShoeCard = ({
   );
 };
 
+const bringItAroundTown = keyframes`
+  0% {
+    transform: translate(0%, 0%);
+  }
+  12.5% {
+    transform: translate(30%, 10%);
+  }
+  25% {
+    transform: translate(40%, 40%);
+  }
+  37.5% {
+    transform: translate(30%, 70%);
+  }
+  50% {
+    transform: translate(0%, 80%);
+  }
+  62.5% {
+    transform: translate(-30%, 70%);
+  }
+  75% {
+    transform: translate(-40%, 40%);
+  }
+  87.5% {
+    transform: translate(-30%, 10%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+`;
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
+  position: relative;
 `;
 
-const Wrapper = styled.article``;
-
-const ImageWrapper = styled.div`
+const Wrapper = styled.article`
   position: relative;
+`;
+
+const Flag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  background: red;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 18}rem;
+  font-weight: ${WEIGHTS.bold};
+  color: var(--color-white);
+  border-radius: 2px;
+  z-index: 2;
 `;
 
 const Image = styled.img`
   width: 100%;
   border-radius: 16px 16px 4px 4px;
+  transition: transform 500ms, filter 500ms;
+  transform-origin: 50% 85%;
+  position: relative;
+  z-index: 1;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+
+  &:hover {
+    ${Flag} {
+      animation: ${bringItAroundTown} 5000ms infinite linear;
+    }
+
+    ${Image} {
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(1.1);
+        transition: transform 200ms, filter 300ms;
+        filter: contrast(120%);
+      }
+    }
+  }
 `;
 
 const Row = styled.div`
@@ -103,20 +169,6 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: var(--color-primary);
-`;
-
-const Flag = styled.div`
-  position: absolute;
-  top: 12px;
-  right: -4px;
-  background: red;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 10px;
-  font-size: ${14 / 18}rem;
-  font-weight: ${WEIGHTS.bold};
-  color: var(--color-white);
-  border-radius: 2px;
 `;
 
 const SaleFlag = styled(Flag)`

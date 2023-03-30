@@ -6,7 +6,7 @@ const NavLink = ({ children, ...delegated }) => {
   return (
     <Wrapper {...delegated}>
       <MainText>{children}</MainText>
-      <HoverText>{children}</HoverText>
+      <HoverText aria-hidden={true}>{children}</HoverText>
     </Wrapper>
   );
 };

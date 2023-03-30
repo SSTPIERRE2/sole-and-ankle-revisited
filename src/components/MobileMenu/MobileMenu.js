@@ -10,8 +10,9 @@ import VisuallyHidden from "../VisuallyHidden";
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
-    <StyledDialogOverlay isOpen={isOpen} onDismiss={onDismiss}>
-      <StyledDialogContent aria-label="Menu">
+    <Wrapper isOpen={isOpen} onDismiss={onDismiss}>
+      <Backdrop />
+      <Content aria-label="Menu">
         <CloseButton onClick={onDismiss}>
           <VisuallyHidden>Dismiss menu</VisuallyHidden>
           <Icon id="close" strokeWidth={2} />
@@ -29,8 +30,8 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
           <Link href="/privacy">Privacy Policy</Link>
           <Link href="/contact">Contact Us</Link>
         </Footer>
-      </StyledDialogContent>
-    </StyledDialogOverlay>
+      </Content>
+    </Wrapper>
   );
 };
 
@@ -43,30 +44,45 @@ const fadeIn = keyframes`
   }
 `;
 
-const StyledDialogOverlay = styled(DialogOverlay)`
-  inset: 0;
-  animation: ${fadeIn} 850ms;
+const Wrapper = styled(DialogOverlay)`
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: var(--color-backdrop);
+  background: transparent;
+  display: flex;
+  justify-content: flex-end;
 `;
 
-const StyledDialogContent = styled(DialogContent)`
+const Backdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-backdrop);
+  animation: ${fadeIn} 500ms;
+`;
+
+const Content = styled(DialogContent)`
   @keyframes slideIn {
     from {
       transform: translateX(100%);
     }
+    to {
+      transform: translateX(0%);
+    }
   }
 
-  animation: slideIn 500ms;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: slideIn 500ms both cubic-bezier(0.2, 0.34, 0.14, 0.97);
+  }
+
+  position: relative;
+  background: white;
   width: 300px;
+  height: 100%;
   background: #fff;
   display: flex;
   flex-direction: column;
